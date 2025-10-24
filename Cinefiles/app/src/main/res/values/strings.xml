@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Cinefiles</string>
+    <string name="title_activity_landing_screen">LandingScreen</string>
+</resources>
