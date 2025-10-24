@@ -1,4 +1,4 @@
-package com.carla.cinefiles.views
+package com.carla.cinefiles.ui.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
