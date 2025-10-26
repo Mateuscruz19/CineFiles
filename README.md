@@ -1,7 +1,7 @@
 ﻿# CineFiles
 
 <div align="center">
-  <img src=".github/screenshots/cinefiles-logo.jpg" alt="CineFiles Logo" width="200"/>
+  <img src=".github/screenshots/cinefileslogo.jpg" alt="CineFiles Logo" width="200"/>
 </div>
 
 Android application for managing and viewing movie information.
@@ -9,10 +9,10 @@ Android application for managing and viewing movie information.
 ## Screenshots
 
 <div align="center">
-  <img src=".github/screenshots/cinefile-screen1.png" alt="Screen 1" width="250"/>
-  <img src=".github/screenshots/cinefile-screen2.png" alt="Screen 2" width="250"/>
-  <img src=".github/screenshots/cinefile-screen3.png" alt="Screen 3" width="250"/>
-  <img src=".github/screenshots/cinefile-screen4.png" alt="Screen 4" width="250"/>
+  <img src=".github/screenshots/cinefilescreen1.png" alt="Screen 1" width="250"/>
+  <img src=".github/screenshots/cinefilescreen2.png" alt="Screen 2" width="250"/>
+  <img src=".github/screenshots/cinefilescreen3.png" alt="Screen 3" width="250"/>
+  <img src=".github/screenshots/cinefilescreen4.png" alt="Screen 4" width="250"/>
 </div>
 
 ## Developer
