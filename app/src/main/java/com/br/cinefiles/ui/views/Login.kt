@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.br.cinefiles.ui.theme.Textos
 
 @Composable
-fun Login(){
+fun Login(onCadastroClick: () -> Unit = {}){
     Column(
        modifier = Modifier
            .fillMaxSize()
@@ -80,9 +80,7 @@ fun Login(){
 
         //BOTAO PRINCIPAL
         Button(
-            onClick = {
-
-            },
+            onClick = onCadastroClick,
             modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 40.dp),
         ) {
             Text(
