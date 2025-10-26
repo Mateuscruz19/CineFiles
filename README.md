@@ -25,12 +25,30 @@ Developed by **AndreOids** - Mobile Development Solutions
 - Jetpack Compose
 - Android SDK
 
+## Setup
+
+### 1. Get TMDB API Key
+
+1. Create a free account at [The Movie Database](https://www.themoviedb.org/)
+2. Go to [API Settings](https://www.themoviedb.org/settings/api) and request an API key
+3. Copy your API key (v3 auth)
+
+### 2. Configure local.properties
+
+1. Copy `local.properties.example` to `local.properties`
+2. Update `sdk.dir` with your Android SDK path
+3. Add your TMDB API key:
+```
+TMDB_API_KEY=your_api_key_here
+```
+
 ## How to Run
 
 1. Clone the repository
-2. Open the project in Android Studio
-3. Sync Gradle
-4. Run on emulator or physical device
+2. Complete the Setup steps above
+3. Open the project in Android Studio
+4. Sync Gradle
+5. Run on emulator or physical device
 
 ## License
 

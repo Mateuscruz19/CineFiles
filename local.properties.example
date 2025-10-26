@@ -1,0 +1,15 @@
+## This file must *NOT* be checked into Version Control Systems,
+# as it contains information specific to your local configuration.
+#
+# HOW TO USE:
+# 1. Copy this file and rename to: local.properties
+# 2. Update sdk.dir with your Android SDK path
+# 3. Get your free TMDB API key from: https://www.themoviedb.org/settings/api
+# 4. Add your API key below (replace YOUR_API_KEY_HERE)
+
+# Location of the Android SDK
+sdk.dir=/path/to/your/android/sdk
+
+# TMDB API Key (Required for the app to work)
+TMDB_API_KEY=YOUR_API_KEY_HERE
+
