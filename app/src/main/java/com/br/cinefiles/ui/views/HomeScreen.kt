@@ -1,14 +1,11 @@
 package com.br.cinefiles.ui.views
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +25,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +34,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,100 +46,117 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.br.cinefiles.R
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import com.br.cinefiles.data.api.ApiConstants
+import com.br.cinefiles.data.models.MovieDto
 import com.br.cinefiles.ui.theme.CinefilesTheme
+import com.br.cinefiles.ui.viewmodels.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-data class Movie(
-    val title: String,
-    @DrawableRes val posterResId: Int
-)
-
-val acaoMovies = listOf(
-    Movie("Mad Max", R.drawable.poster_mad_max),
-    Movie("John Wick", R.drawable.poster_john_wick),
-    Movie("Kill Bill", R.drawable.poster_kill_bill)
-)
-
-val comediaMovies = listOf(
-    Movie("Superbad", R.drawable.poster_superbad),
-    Movie("Gente grande", R.drawable.poster_gente_grande),
-    Movie("As Branquelas", R.drawable.poster_as_branquelas)
-)
-
-val terrorMovies = listOf(
-    Movie("Corra!", R.drawable.poster_corra),
-    Movie("Juntos", R.drawable.poster_juntos),
-    Movie("Hereditário", R.drawable.poster_hereditario)
-)
-
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val uiState by viewModel.uiState.collectAsState()
+    
     CinefilesTheme(darkTheme = true) {
         Scaffold(
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
             containerColor = MaterialTheme.colorScheme.background
         ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(bottom = 16.dp)
-        ) {
-            item {
-                TopBarSection()
-            }
-            item {
-                FeaturedMovieSection(snackbarHostState = snackbarHostState, scope = scope)
-            }
+            
+            if (uiState.isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else if (uiState.error != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = uiState.error!!,
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(innerPadding),
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
+                    contentPadding = PaddingValues(bottom = 16.dp)
+                ) {
+                    item {
+                        TopBarSection()
+                    }
+                    
+                    uiState.featuredMovie?.let { movie ->
+                        item {
+                            FeaturedMovieSection(
+                                movie = movie,
+                                snackbarHostState = snackbarHostState,
+                                scope = scope
+                            )
+                        }
+                    }
 
-            item {
-                MovieCategorySection(
-                    categoryTitle = "Ação",
-                    movieList = acaoMovies
-                )
+                    if (uiState.actionMovies.isNotEmpty()) {
+                        item {
+                            MovieCategorySection(
+                                categoryTitle = "Ação",
+                                movieList = uiState.actionMovies
+                            )
+                        }
+                    }
+                    
+                    if (uiState.comedyMovies.isNotEmpty()) {
+                        item {
+                            MovieCategorySection(
+                                categoryTitle = "Comédia",
+                                movieList = uiState.comedyMovies
+                            )
+                        }
+                    }
+                    
+                    if (uiState.horrorMovies.isNotEmpty()) {
+                        item {
+                            MovieCategorySection(
+                                categoryTitle = "Terror",
+                                movieList = uiState.horrorMovies
+                            )
+                        }
+                    }
+                    
+                    item {
+                        CopyrightFooter()
+                    }
+                }
             }
-            item {
-                MovieCategorySection(
-                    categoryTitle = "Comédia",
-                    movieList = comediaMovies
-                )
-            }
-            item {
-                MovieCategorySection(
-                    categoryTitle = "Terror",
-                    movieList = terrorMovies
-                )
-            }
-            /*
-            item {
-                MovieCategorySection(
-                    categoryTitle = "Favoritos",
-                    movieList = emptyList() //TODO: fazer essa lsita ser criada conforme for favoritando, boa sorte baiano
-                )
-            }
-             */
-            item {
-                CopyrightFooter()
-            }
-        }
         }
     }
 }
 
 @Composable
-fun MovieCategorySection(categoryTitle: String, movieList: List<Movie>) {
+fun MovieCategorySection(categoryTitle: String, movieList: List<MovieDto>) {
     Column {
         Text(
             text = categoryTitle,
@@ -164,7 +180,7 @@ fun MovieCategorySection(categoryTitle: String, movieList: List<Movie>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoviePosterCard(movie: Movie) {
+fun MoviePosterCard(movie: MovieDto) {
     Card(
         onClick = { //TODO: ir para a tela de detalhes do filme
         },
@@ -176,8 +192,8 @@ fun MoviePosterCard(movie: Movie) {
         Column(
             modifier = Modifier.width(140.dp)
         ) {
-            Image(
-                painter = painterResource(id = movie.posterResId),
+            AsyncImage(
+                model = ApiConstants.IMAGE_BASE_URL + movie.posterPath,
                 contentDescription = "Pôster do filme ${movie.title}",
                 modifier = Modifier
                     .height(200.dp)
@@ -191,7 +207,8 @@ fun MoviePosterCard(movie: Movie) {
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
                     .padding(12.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
+                maxLines = 2
             )
         }
     }
@@ -199,7 +216,7 @@ fun MoviePosterCard(movie: Movie) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FeaturedMovieSection(snackbarHostState: SnackbarHostState, scope: CoroutineScope) {
+fun FeaturedMovieSection(movie: MovieDto, snackbarHostState: SnackbarHostState, scope: CoroutineScope) {
     var isFavorited by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -255,9 +272,9 @@ fun FeaturedMovieSection(snackbarHostState: SnackbarHostState, scope: CoroutineS
             )
         ) {
             Column {
-                Image(
-                    painter = painterResource(id = R.drawable.poster_cidade_de_deus),
-                    contentDescription = "Poster do filme cidade de deus",
+                AsyncImage(
+                    model = ApiConstants.IMAGE_BASE_URL + movie.backdropPath,
+                    contentDescription = "Poster do filme ${movie.title}",
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(250.dp)
@@ -265,7 +282,7 @@ fun FeaturedMovieSection(snackbarHostState: SnackbarHostState, scope: CoroutineS
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    text = "Cidade de Deus",
+                    text = movie.title,
                     modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
