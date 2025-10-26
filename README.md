@@ -1,25 +1,38 @@
 # CineFiles
 
-Aplicativo Android para gerenciamento e visualização de informações sobre filmes.
+<div align="center">
+  <img src=".github/screenshots/cinefiles-logo.jpg" alt="CineFiles Logo" width="200"/>
+</div>
 
-## Desenvolvedor
+Android application for managing and viewing movie information.
 
-Desenvolvido por **AndreOids** - Soluções em Desenvolvimento Mobile
+## 📱 Screenshots
 
-## Tecnologias
+<div align="center">
+  <img src=".github/screenshots/cinefile-screen1.png" alt="Login Screen" width="200"/>
+  <img src=".github/screenshots/cinefile-screen2.png" alt="Sign Up" width="200"/>
+  <img src=".github/screenshots/cinefile-screen3.png" alt="Home" width="200"/>
+  <img src=".github/screenshots/cinefile-screen4.png" alt="Movie Details" width="200"/>
+</div>
+
+## Developer
+
+Developed by **AndreOids** - Mobile Development Solutions
+
+## Technologies
 
 - Kotlin
 - Jetpack Compose
 - Android SDK
 
-## Como Executar
+## How to Run
 
-1. Clone o repositório
-2. Abra o projeto no Android Studio
-3. Sincronize o Gradle
-4. Execute no emulador ou dispositivo físico
+1. Clone the repository
+2. Open the project in Android Studio
+3. Sync Gradle
+4. Run on emulator or physical device
 
-## Licença
+## License
 
-Este projeto está sob a licença especificada no arquivo LICENSE.
+This project is licensed under the license specified in the LICENSE file.
 
