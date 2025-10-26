@@ -1,15 +1,17 @@
 ## This file must *NOT* be checked into Version Control Systems,
 # as it contains information specific to your local configuration.
 #
+# IMPORTANT: Android Studio automatically creates local.properties with sdk.dir
+# You just need to ADD the TMDB_API_KEY line to your existing local.properties file
+#
 # HOW TO USE:
-# 1. Copy this file and rename to: local.properties
-# 2. Update sdk.dir with your Android SDK path
-# 3. Get your free TMDB API key from: https://www.themoviedb.org/settings/api
-# 4. Add your API key below (replace YOUR_API_KEY_HERE)
-
-# Location of the Android SDK
-sdk.dir=/path/to/your/android/sdk
-
-# TMDB API Key (Required for the app to work)
-TMDB_API_KEY=YOUR_API_KEY_HERE
+# 1. Open project in Android Studio (local.properties will be auto-created)
+# 2. Get your free TMDB API key from: https://www.themoviedb.org/settings/api
+# 3. Add this line to your local.properties file:
+#
+# TMDB_API_KEY=YOUR_API_KEY_HERE
+#
+# Example of final local.properties:
+# sdk.dir=C\:\\Users\\YourName\\AppData\\Local\\Android\\Sdk
+# TMDB_API_KEY=your_actual_api_key_here
 

@@ -35,12 +35,14 @@ Developed by **AndreOids** - Mobile Development Solutions
 
 ### 2. Configure local.properties
 
-1. Copy `local.properties.example` to `local.properties`
-2. Update `sdk.dir` with your Android SDK path
-3. Add your TMDB API key:
+1. Open the project in Android Studio (it will auto-generate `local.properties` with your SDK path)
+2. Open the `local.properties` file
+3. Add your TMDB API key at the end of the file:
 ```
 TMDB_API_KEY=your_api_key_here
 ```
+
+Note: Check `local.properties.example` for reference if needed
 
 ## How to Run
 
