@@ -52,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.br.cinefiles.data.api.ApiConstants
 import com.br.cinefiles.data.models.MovieDto
@@ -62,7 +63,10 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = viewModel()
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
@@ -114,7 +118,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                             FeaturedMovieSection(
                                 movie = movie,
                                 snackbarHostState = snackbarHostState,
-                                scope = scope
+                                scope = scope,
+                                onMovieClick = { movieId ->
+                                    navController.navigate("movieDetail/$movieId")
+                                }
                             )
                         }
                     }
@@ -123,7 +130,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                         item {
                             MovieCategorySection(
                                 categoryTitle = "Ação",
-                                movieList = uiState.actionMovies
+                                movieList = uiState.actionMovies,
+                                onMovieClick = { movieId ->
+                                    navController.navigate("movieDetail/$movieId")
+                                }
                             )
                         }
                     }
@@ -132,7 +142,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                         item {
                             MovieCategorySection(
                                 categoryTitle = "Comédia",
-                                movieList = uiState.comedyMovies
+                                movieList = uiState.comedyMovies,
+                                onMovieClick = { movieId ->
+                                    navController.navigate("movieDetail/$movieId")
+                                }
                             )
                         }
                     }
@@ -141,7 +154,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
                         item {
                             MovieCategorySection(
                                 categoryTitle = "Terror",
-                                movieList = uiState.horrorMovies
+                                movieList = uiState.horrorMovies,
+                                onMovieClick = { movieId ->
+                                    navController.navigate("movieDetail/$movieId")
+                                }
                             )
                         }
                     }
@@ -156,7 +172,10 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
 }
 
 @Composable
-fun MovieCategorySection(categoryTitle: String, movieList: List<MovieDto>) {
+fun MovieCategorySection(
+    categoryTitle: String,
+    movieList: List<MovieDto>,
+    onMovieClick: (String) -> Unit) {
     Column {
         Text(
             text = categoryTitle,
@@ -172,7 +191,7 @@ fun MovieCategorySection(categoryTitle: String, movieList: List<MovieDto>) {
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             items(movieList) { movie ->
-                MoviePosterCard(movie = movie)
+                MoviePosterCard(movie = movie, onMovieClick = onMovieClick)
             }
         }
     }
@@ -180,9 +199,13 @@ fun MovieCategorySection(categoryTitle: String, movieList: List<MovieDto>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoviePosterCard(movie: MovieDto) {
+fun MoviePosterCard(
+    movie: MovieDto,
+    onMovieClick: (String) -> Unit
+) {
     Card(
         onClick = { //TODO: ir para a tela de detalhes do filme
+            onMovieClick(movie.id.toString())
         },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
@@ -216,7 +239,12 @@ fun MoviePosterCard(movie: MovieDto) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FeaturedMovieSection(movie: MovieDto, snackbarHostState: SnackbarHostState, scope: CoroutineScope) {
+fun FeaturedMovieSection(
+    movie: MovieDto,
+    snackbarHostState: SnackbarHostState,
+    scope: CoroutineScope,
+    onMovieClick: (String) -> Unit
+) {
     var isFavorited by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -263,6 +291,7 @@ fun FeaturedMovieSection(movie: MovieDto, snackbarHostState: SnackbarHostState, 
         Spacer(modifier = Modifier.height(16.dp))
         Card(
             onClick = { //TODO: ir para a tela de detalhes do filme
+                onMovieClick(movie.id.toString())
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -342,10 +371,10 @@ fun CopyrightFooter() {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    CinefilesTheme(darkTheme = true) {
-        HomeScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    CinefilesTheme(darkTheme = true) {
+//        HomeScreen()
+//    }
+//}
