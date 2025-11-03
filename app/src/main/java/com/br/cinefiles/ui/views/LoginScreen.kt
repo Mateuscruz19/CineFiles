@@ -27,7 +27,10 @@ import com.br.cinefiles.ui.theme.Preto
 import com.br.cinefiles.ui.theme.Textos
 
 @Composable
-fun LoginScreen(onCadastroClick: () -> Unit = {}) {
+fun LoginScreen(
+    onLoginClick: () -> Unit = {},
+    onRegisterClick: () -> Unit = {}
+) {
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
     var lembrarDeMim by remember { mutableStateOf(false) }
@@ -129,7 +132,7 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = onCadastroClick,
+                onClick = onLoginClick, // <-- CORRIGIDO
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
@@ -160,7 +163,7 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
                     text = "Cadastre-se",
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable { onCadastroClick() }
+                    modifier = Modifier.clickable { onRegisterClick() } // <-- CORRIGIDO
                 )
             }
         }

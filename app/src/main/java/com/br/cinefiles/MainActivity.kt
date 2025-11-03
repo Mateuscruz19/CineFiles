@@ -15,6 +15,7 @@ import com.br.cinefiles.ui.views.Login
 import com.br.cinefiles.ui.views.HomeScreen
 import com.br.cinefiles.ui.views.LoginScreen
 import com.br.cinefiles.ui.views.MovieDetailScreen
+import com.br.cinefiles.ui.views.RegisterScreen
 import com.br.cinefiles.ui.views.SearchScreen
 
 class MainActivity : ComponentActivity() {
@@ -27,24 +28,33 @@ class MainActivity : ComponentActivity() {
             
             NavHost(
                 navController = navController,
-                startDestination = "welcome" // A tela inicial agora é a de boas-vindas
+                startDestination = "welcome"
             ) {
                 // Tela de Boas-Vindas
                 composable("welcome") {
                     Login(
-                        onCadastroClick = { navController.navigate("home") },
-                        onEntrarClick = { navController.navigate("login") } // Navega para a tela de Login real
+                        onCadastroClick = { navController.navigate("register") },
+                        onEntrarClick = { navController.navigate("login") }
                     )
                 }
 
-                // Tela de Login com campos de E-mail e Senha
+                // Tela de Login com campos
                 composable("login") {
                     LoginScreen(
-                        onCadastroClick = { navController.navigate("home") } // Supondo que daqui também vá para home
+                        onLoginClick = { navController.navigate("home") },
+                        onRegisterClick = { navController.navigate("register") }
                     )
                 }
 
-                // Demais telas
+                // Tela de Cadastro com campos
+                composable("register") {
+                    RegisterScreen(
+                        onRegisterClick = { navController.navigate("home") },
+                        onLoginClick = { navController.navigate("login") }
+                    )
+                }
+
+                // Demais telas do app
                 composable("home") {
                     HomeScreen(navController = navController)
                 }

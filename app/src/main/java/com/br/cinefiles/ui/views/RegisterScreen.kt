@@ -27,7 +27,10 @@ import com.br.cinefiles.ui.theme.Preto
 import com.br.cinefiles.ui.theme.Textos
 
 @Composable
-fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
+fun RegisterScreen(
+    onRegisterClick: () -> Unit = {},
+    onLoginClick: () -> Unit = {}
+) {
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
     var lembrarDeMim by remember { mutableStateOf(false) }
@@ -36,7 +39,6 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // 🌆 IMAGEM DE FUNDO EM TELA INTEIRA
         Image(
             painter = painterResource(id = R.drawable.lalaland),
             contentDescription = null,
@@ -44,14 +46,12 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
             contentScale = ContentScale.Crop
         )
 
-        // 🔲 OVERLAY ESCURO TRANSLÚCIDO (pra deixar o texto legível)
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xAA000000))
         )
 
-        // 📦 CONTEÚDO EM CIMA DA IMAGEM
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -61,7 +61,6 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            // LOGO
             Image(
                 painter = painterResource(id = R.drawable.cinefileslogo),
                 contentDescription = null,
@@ -79,7 +78,6 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // EMAIL
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -99,7 +97,6 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
 
-            // SENHA
             OutlinedTextField(
                 value = senha,
                 onValueChange = { senha = it },
@@ -121,7 +118,6 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // LEMBRAR DE MIM
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -140,9 +136,8 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // BOTÃO ENTRAR
             Button(
-                onClick = { println("Entrar no sistema") },
+                onClick = onRegisterClick, // <-- CORRIGIDO
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
@@ -161,20 +156,19 @@ fun RegisterScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // LINK DE CADASTRO
             Row(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Já tem uma conta?",
+                    text = "Já tem uma conta? ",
                     color = Branco
                 )
                 Text(
                     text = "Entrar",
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable { onCadastroClick() }
+                    modifier = Modifier.clickable { onLoginClick() } // <-- CORRIGIDO
                 )
             }
         }
