@@ -1,9 +1,11 @@
 package com.br.cinefiles
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,8 +14,10 @@ import androidx.navigation.navArgument
 import com.br.cinefiles.ui.views.Login
 import com.br.cinefiles.ui.views.HomeScreen
 import com.br.cinefiles.ui.views.MovieDetailScreen
+import com.br.cinefiles.ui.views.SearchScreen
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,6 +38,9 @@ class MainActivity : ComponentActivity() {
                 composable("home") {
                     HomeScreen(navController = navController)
                 }
+                composable("search") {
+                    SearchScreen(navController = navController)
+                }
                 composable(
                     route = "movieDetail/{movieId}",
                     arguments = listOf(navArgument("movieId") { type = NavType.StringType })
@@ -42,13 +49,10 @@ class MainActivity : ComponentActivity() {
 
                     MovieDetailScreen(
                         movieId = movieId,
-                        onVoltarClick = {
-                            navController.popBackStack()
-                        }
+                        navController = navController
                     )
                 }
             }
         }
     }
 }
-

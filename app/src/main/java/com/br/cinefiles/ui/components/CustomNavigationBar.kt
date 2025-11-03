@@ -10,9 +10,11 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun CustomNavigationBar() {
+fun CustomNavigationBar(navController: NavController) {
+
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surface,
 
@@ -22,7 +24,9 @@ fun CustomNavigationBar() {
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Search, contentDescription = "Buscar") },
             selected = false,
-            onClick = { /* TODO: Navegar para Busca */ }
+            onClick = {
+                navController.navigate("search") //
+            }
         )
         NavigationBarItem(
             icon = { Icon(Icons.Default.Menu, contentDescription = "Menu") },

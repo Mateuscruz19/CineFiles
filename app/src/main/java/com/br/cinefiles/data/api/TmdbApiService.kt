@@ -29,5 +29,13 @@ interface TmdbApiService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "pt-BR"
     ): MovieDetailDto
-}
 
+    // CORREÇÃO: Removido o parâmetro 'genreId' que não pertence a esta rota.
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("api_key") apiKey: String,
+        @Query("query") query: String,
+        @Query("language") language: String = "pt-BR",
+        @Query("page") page: Int = 1
+    ): MovieResponse
+}

@@ -38,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 private val DarkThemeColors = darkColorScheme(
     primary = Color(0xFFBB86FC),
@@ -56,7 +57,7 @@ private val DarkThemeColors = darkColorScheme(
 @Composable
 fun MovieDetailScreen(
     movieId: String?,
-    onVoltarClick: () -> Unit,
+    navController: NavController,
     viewModel: MovieDetailViewModel = viewModel()
 ) {
     // Coleta o estado da UI do ViewModel
@@ -66,9 +67,9 @@ fun MovieDetailScreen(
         topBar = {
             TopAppBar(
                 // Usa o título do filme quando carregado
-                title = { Text(uiState.movie?.title ?: "Voltar") },
+                title = { Text(uiState.movie?.title ?: "Detalhes do Filme") },
                 navigationIcon = {
-                    IconButton(onClick = onVoltarClick) {
+                    IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Voltar"
@@ -81,7 +82,7 @@ fun MovieDetailScreen(
             )
         },
         bottomBar = {
-            CustomNavigationBar()
+            CustomNavigationBar(navController = navController)
         }
     ) { innerPadding ->
 
