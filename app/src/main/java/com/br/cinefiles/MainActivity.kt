@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.br.cinefiles.ui.views.Login
 import com.br.cinefiles.ui.views.HomeScreen
+import com.br.cinefiles.ui.views.LoginScreen
 import com.br.cinefiles.ui.views.MovieDetailScreen
 import com.br.cinefiles.ui.views.SearchScreen
 
@@ -26,15 +27,24 @@ class MainActivity : ComponentActivity() {
             
             NavHost(
                 navController = navController,
-                startDestination = "login"
+                startDestination = "welcome" // A tela inicial agora é a de boas-vindas
             ) {
-                composable("login") {
+                // Tela de Boas-Vindas
+                composable("welcome") {
                     Login(
-                        onCadastroClick = {
-                            navController.navigate("home")
-                        }
+                        onCadastroClick = { navController.navigate("home") },
+                        onEntrarClick = { navController.navigate("login") } // Navega para a tela de Login real
                     )
                 }
+
+                // Tela de Login com campos de E-mail e Senha
+                composable("login") {
+                    LoginScreen(
+                        onCadastroClick = { navController.navigate("home") } // Supondo que daqui também vá para home
+                    )
+                }
+
+                // Demais telas
                 composable("home") {
                     HomeScreen(navController = navController)
                 }

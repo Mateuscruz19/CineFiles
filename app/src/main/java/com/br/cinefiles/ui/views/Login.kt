@@ -31,7 +31,10 @@ import androidx.compose.ui.unit.sp
 import com.br.cinefiles.ui.theme.Textos
 
 @Composable
-fun Login(onCadastroClick: () -> Unit = {}){
+fun Login(
+    onCadastroClick: () -> Unit = {},
+    onEntrarClick: () -> Unit = {} // Parâmetro para a ação de entrar
+){
     Column(
        modifier = Modifier
            .fillMaxSize()
@@ -108,11 +111,8 @@ fun Login(onCadastroClick: () -> Unit = {}){
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
-
-                modifier = Modifier.clickable {
-                    println("mudar aqui pra tela de login")
-
-                }
+                // Chama a função passada como parâmetro no clique
+                modifier = Modifier.clickable { onEntrarClick() }
             )
         }
     }

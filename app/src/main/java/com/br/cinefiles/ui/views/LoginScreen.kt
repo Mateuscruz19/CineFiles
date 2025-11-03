@@ -36,22 +36,17 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // 🌆 IMAGEM DE FUNDO EM TELA INTEIRA
         Image(
             painter = painterResource(id = R.drawable.lalaland),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-
-        // 🔲 OVERLAY ESCURO TRANSLÚCIDO (pra deixar o texto legível)
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xAA000000))
         )
-
-        // 📦 CONTEÚDO EM CIMA DA IMAGEM
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -60,8 +55,6 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
-            // LOGO
             Image(
                 painter = painterResource(id = R.drawable.cinefileslogo),
                 contentDescription = null,
@@ -69,17 +62,14 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
                     .width(200.dp)
                     .padding(bottom = 32.dp)
             )
-
             Text(
                 text = "Entre na sua conta",
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 color = Branco
             )
-
             Spacer(modifier = Modifier.height(24.dp))
 
-            // EMAIL
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -99,7 +89,6 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
 
-            // SENHA
             OutlinedTextField(
                 value = senha,
                 onValueChange = { senha = it },
@@ -121,7 +110,6 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // LEMBRAR DE MIM
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -140,9 +128,8 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // BOTÃO ENTRAR
             Button(
-                onClick = { println("Entrar no sistema") },
+                onClick = onCadastroClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
@@ -161,7 +148,6 @@ fun LoginScreen(onCadastroClick: () -> Unit = {}) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // LINK DE CADASTRO
             Row(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
