@@ -133,7 +133,7 @@ fun RegisterScreen(
                     onCheckedChange = { lembrarDeMim = it },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Purple40,
-                        checkedTrackColor = Purple40.copy(alpha = 0.5f), // Trilha (faixa)
+                        checkedTrackColor = Purple40.copy(alpha = 0.5f),
                         uncheckedThumbColor = Color.DarkGray,
                         uncheckedTrackColor = Color.Gray.copy(alpha = 0.5f)
                     )
@@ -143,7 +143,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = onRegisterClick, // <-- CORRIGIDO
+                onClick = onRegisterClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
@@ -174,7 +174,7 @@ fun RegisterScreen(
                     text = "Entrar",
                     color = Purple40,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable { onLoginClick() } // <-- CORRIGIDO
+                    modifier = Modifier.clickable { onLoginClick() }
                 )
             }
         }

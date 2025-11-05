@@ -169,7 +169,7 @@ fun LoginScreen(
                     text = "Cadastre-se",
                     color = Purple40,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clickable { onRegisterClick() } // <-- CORRIGIDO
+                    modifier = Modifier.clickable { onRegisterClick() }
                 )
             }
         }

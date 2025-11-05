@@ -48,7 +48,6 @@ class SearchViewModel : ViewModel() {
             val response = apiService.searchMovies(apiKey, query)
             _uiState.value = _uiState.value.copy(
                 isLoading = false,
-                // GARANTE QUE NAO SERA NULO, USANDO UMA LISTA VAZIA COMO PADRÃO
                 searchResults = response.results ?: emptyList()
             )
         } catch (e: Exception) {
