@@ -25,13 +25,13 @@ fun CustomNavigationBar(navController: NavController) {
             icon = { Icon(Icons.Outlined.Search, contentDescription = "Buscar") },
             selected = false,
             onClick = {
-                navController.navigate("search") //
+                navController.navigate("search")
             }
         )
         NavigationBarItem(
             icon = { Icon(Icons.Default.Menu, contentDescription = "Menu") },
             selected = false,
-            onClick = { /* TODO: Navegar para Menu */ }
+            onClick = { navController.navigate("home") }
         )
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Person, contentDescription = "Perfil") },

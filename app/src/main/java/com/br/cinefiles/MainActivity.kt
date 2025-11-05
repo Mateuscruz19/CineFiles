@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.br.cinefiles.ui.theme.CinefilesTheme
 import com.br.cinefiles.ui.views.Login
 import com.br.cinefiles.ui.views.HomeScreen
 import com.br.cinefiles.ui.views.LoginScreen
@@ -24,53 +25,51 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-            
-            NavHost(
-                navController = navController,
-                startDestination = "welcome"
-            ) {
-                // Tela de Boas-Vindas
-                composable("welcome") {
-                    Login(
-                        onCadastroClick = { navController.navigate("register") },
-                        onEntrarClick = { navController.navigate("login") }
-                    )
-                }
+            CinefilesTheme(darkTheme = true) {
+                val navController = rememberNavController()
 
-                // Tela de Login com campos
-                composable("login") {
-                    LoginScreen(
-                        onLoginClick = { navController.navigate("home") },
-                        onRegisterClick = { navController.navigate("register") }
-                    )
-                }
+                NavHost(
+                    navController = navController,
+                    startDestination = "welcome"
+                ) {
+                    composable("welcome") {
+                        Login(
+                            onCadastroClick = { navController.navigate("register") },
+                            onEntrarClick = { navController.navigate("login") }
+                        )
+                    }
 
-                // Tela de Cadastro com campos
-                composable("register") {
-                    RegisterScreen(
-                        onRegisterClick = { navController.navigate("home") },
-                        onLoginClick = { navController.navigate("login") }
-                    )
-                }
+                    composable("login") {
+                        LoginScreen(
+                            onLoginClick = { navController.navigate("home") },
+                            onRegisterClick = { navController.navigate("register") }
+                        )
+                    }
 
-                // Demais telas do app
-                composable("home") {
-                    HomeScreen(navController = navController)
-                }
-                composable("search") {
-                    SearchScreen(navController = navController)
-                }
-                composable(
-                    route = "movieDetail/{movieId}",
-                    arguments = listOf(navArgument("movieId") { type = NavType.StringType })
-                ) { backStackEntry ->
-                    val movieId = backStackEntry.arguments?.getString("movieId")
+                    composable("register") {
+                        RegisterScreen(
+                            onRegisterClick = { navController.navigate("home") },
+                            onLoginClick = { navController.navigate("login") }
+                        )
+                    }
 
-                    MovieDetailScreen(
-                        movieId = movieId,
-                        navController = navController
-                    )
+                    composable("home") {
+                        HomeScreen(navController = navController)
+                    }
+                    composable("search") {
+                        SearchScreen(navController = navController)
+                    }
+                    composable(
+                        route = "movieDetail/{movieId}",
+                        arguments = listOf(navArgument("movieId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val movieId = backStackEntry.arguments?.getString("movieId")
+
+                        MovieDetailScreen(
+                            movieId = movieId,
+                            navController = navController
+                        )
+                    }
                 }
             }
         }

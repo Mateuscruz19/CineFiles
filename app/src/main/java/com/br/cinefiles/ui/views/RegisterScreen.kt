@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.br.cinefiles.R
 import com.br.cinefiles.ui.theme.Branco
 import com.br.cinefiles.ui.theme.Preto
+import com.br.cinefiles.ui.theme.Purple40
 import com.br.cinefiles.ui.theme.Textos
 
 @Composable
@@ -130,7 +131,12 @@ fun RegisterScreen(
                 Switch(
                     checked = lembrarDeMim,
                     onCheckedChange = { lembrarDeMim = it },
-                    colors = SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colorScheme.primary)
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Purple40,
+                        checkedTrackColor = Purple40.copy(alpha = 0.5f), // Trilha (faixa)
+                        uncheckedThumbColor = Color.DarkGray,
+                        uncheckedTrackColor = Color.Gray.copy(alpha = 0.5f)
+                    )
                 )
             }
 
@@ -143,7 +149,7 @@ fun RegisterScreen(
                     .height(56.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = Purple40
                 )
             ) {
                 Text(
@@ -166,7 +172,7 @@ fun RegisterScreen(
                 )
                 Text(
                     text = "Entrar",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = Purple40,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable { onLoginClick() } // <-- CORRIGIDO
                 )

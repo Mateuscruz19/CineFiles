@@ -28,6 +28,7 @@ import com.br.cinefiles.ui.theme.Branco
 import com.br.cinefiles.ui.theme.Preto
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.sp
+import com.br.cinefiles.ui.theme.Purple40
 import com.br.cinefiles.ui.theme.Textos
 
 @Composable
@@ -85,12 +86,16 @@ fun Login(
         Button(
             onClick = onCadastroClick,
             modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 40.dp),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = Purple40,
+                contentColor = Branco
+            )
         ) {
             Text(
                 text = "Cadastre-se",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Branco
+                color= Branco
             )
         }
 
@@ -110,7 +115,7 @@ fun Login(
                 text = "Entrar",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = Purple40,
                 // Chama a função passada como parâmetro no clique
                 modifier = Modifier.clickable { onEntrarClick() }
             )

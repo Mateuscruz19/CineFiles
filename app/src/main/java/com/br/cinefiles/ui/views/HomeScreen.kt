@@ -56,6 +56,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.br.cinefiles.data.api.ApiConstants
 import com.br.cinefiles.data.models.MovieDto
+import com.br.cinefiles.ui.components.CustomNavigationBar
 import com.br.cinefiles.ui.theme.CinefilesTheme
 import com.br.cinefiles.ui.viewmodels.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -74,7 +75,10 @@ fun HomeScreen(
     CinefilesTheme(darkTheme = true) {
         Scaffold(
             snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            bottomBar = {
+                CustomNavigationBar(navController = navController)
+            }
         ) { innerPadding ->
             
             if (uiState.isLoading) {

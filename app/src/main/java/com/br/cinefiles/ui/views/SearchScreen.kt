@@ -1,28 +1,14 @@
 package com.br.cinefiles.ui.views
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.br.cinefiles.data.api.ApiConstants
 import com.br.cinefiles.ui.components.CustomNavigationBar
 import com.br.cinefiles.ui.components.SearchResultItem
@@ -44,10 +31,8 @@ fun SearchScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        containerColor = Color(0xFF0D0D0D),
-        bottomBar = {
-            CustomNavigationBar(navController = navController)
-        }
+        containerColor = MaterialTheme.colorScheme.surface,
+        bottomBar = { CustomNavigationBar(navController = navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -55,25 +40,31 @@ fun SearchScreen(
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            // CAMPO DE BUSA
             TextField(
                 value = uiState.query,
                 onValueChange = { viewModel.onQueryChange(it) },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Pesquisar...", color = Color.Gray) },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Ícone de busca") },
+                placeholder = { Text("Pesquisar...", color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)) },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Executar busca",
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.clickable {
+                            viewModel.onQueryChange(uiState.query)
+                        }
+                    )
+                },
                 singleLine = true,
                 shape = RoundedCornerShape(28.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF49454F),
-                    unfocusedContainerColor = Color(0xFF49454F),
-
-                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                     focusedIndicatorColor = Color.Transparent,
-
-                    cursorColor = Color.White,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = MaterialTheme.colorScheme.onSurface,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                 )
             )
 
@@ -127,7 +118,9 @@ fun SearchScreen(
                                     title = movie.title,
                                     thumbnailUrl = ApiConstants.IMAGE_BASE_URL + movie.posterPath,
                                     genre = if (genresText.isNullOrEmpty()) "Gênero não informado" else genresText,
-                                    modifier = Modifier.clickable { navController.navigate("movieDetail/${movie.id}") }
+                                    modifier = Modifier.clickable {
+                                        navController.navigate("movieDetail/${movie.id}")
+                                    }
                                 )
                             }
                         }
@@ -138,8 +131,12 @@ fun SearchScreen(
     }
 }
 
-//@Preview
-//@Composable
-//private fun SearchPreview(){
-//    SearchScreen(navController = navController)
-//}
+@Preview(showBackground = true)
+@Composable
+fun SearchPreview() {
+    val fakeNavController = rememberNavController()
+
+    MaterialTheme(colorScheme = darkColorScheme()) {
+        SearchScreen(navController = fakeNavController)
+    }
+}
