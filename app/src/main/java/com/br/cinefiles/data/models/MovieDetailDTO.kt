@@ -1,11 +1,7 @@
 package com.br.cinefiles.data.models
 
-
 import com.google.gson.annotations.SerializedName
 
-/**
- * Representa a resposta completa da API de detalhes do filme.
- */
 data class MovieDetailDto(
     @SerializedName("id")
     val id: Int,
@@ -25,23 +21,9 @@ data class MovieDetailDto(
     @SerializedName("vote_average")
     val voteAverage: Double?,
 
-    @SerializedName("release_date") // Usaremos para o "Ano"
+    @SerializedName("release_date")
     val releaseDate: String?,
 
-    @SerializedName("genres") // Lista de objetos de Gênero
+    @SerializedName("genres")
     val genres: List<GenreDto>?
-
-    // "Direção" (Director) não vem nesta API.
-    // É uma chamada separada para "movie/{id}/credits"
-)
-
-/**
- * Representa o objeto de Gênero que vem dentro do MovieDetailDto.
- */
-data class GenreDto(
-    @SerializedName("id")
-    val id: Int,
-
-    @SerializedName("name")
-    val name: String
 )
