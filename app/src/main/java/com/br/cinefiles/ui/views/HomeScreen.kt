@@ -15,8 +15,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlaylistAdd
+import androidx.compose.material.icons.filled.PlaylistAddCheck
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -29,9 +31,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.br.cinefiles.ui.components.CustomNavigationBar
 import com.br.cinefiles.ui.components.FeaturedMovie
@@ -39,8 +41,7 @@ import com.br.cinefiles.ui.components.MovieCard
 import com.br.cinefiles.ui.viewmodels.HomeViewModel
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    val viewModel: HomeViewModel = viewModel()
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
@@ -72,12 +73,8 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                // Header moved inside LazyColumn for better control
                 item {
-                    // Spacer to push content down from the top
                     Spacer(modifier = Modifier.height(48.dp))
-
-                    // Row for Welcome Text and Profile Icon
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -87,7 +84,6 @@ fun HomeScreen(navController: NavController) {
                     ) {
                         Column {
                             Text("O que vamos assistir hoje,", style = MaterialTheme.typography.titleLarge)
-                            // TODO: Substituir "Usuário" pelo nome do usuário do banco de dados
                             Text("Usuário?", style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold))
                         }
                         IconButton(onClick = { navController.navigate("profile") }) {
@@ -98,10 +94,7 @@ fun HomeScreen(navController: NavController) {
                             )
                         }
                     }
-
                     Spacer(modifier = Modifier.height(24.dp))
-
-                    // Row for "Filme da semana" title and action icons
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -114,30 +107,79 @@ fun HomeScreen(navController: NavController) {
                             style = MaterialTheme.typography.titleLarge
                         )
                         Row {
-                            IconButton(onClick = { /* TODO: Favorite action */ }) {
-                                Icon(Icons.Default.FavoriteBorder, contentDescription = "Favoritos")
+                            val isFavorite = uiState.favoriteMovies.any { it.id == uiState.featuredMovie?.id }
+                            val isInMyList = uiState.myListMovies.any { it.id == uiState.featuredMovie?.id }
+
+                            IconButton(onClick = { uiState.featuredMovie?.let { viewModel.toggleFavorite(it) } }) {
+                                Icon(
+                                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                    contentDescription = "Favoritos",
+                                    tint = if (isFavorite) Color.Red else MaterialTheme.colorScheme.onBackground
+                                )
                             }
-                            IconButton(onClick = { /* TODO: Add to list action */ }) {
-                                Icon(Icons.Default.PlaylistAdd, contentDescription = "Adicionar à Lista")
+                            IconButton(onClick = { uiState.featuredMovie?.let { viewModel.toggleMyList(it) } }) {
+                                Icon(
+                                    imageVector = if (isInMyList) Icons.Default.PlaylistAddCheck else Icons.Default.PlaylistAdd,
+                                    contentDescription = "Adicionar à Lista"
+                                )
                             }
                         }
                     }
-
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
-                // Featured Movie
                 item {
-                    uiState.featuredMovie?.let { movie ->
+                    uiState.featuredMovie?.let {
                         FeaturedMovie(
-                            movie = movie,
-                            modifier = Modifier.clickable { navController.navigate("movieDetail/${movie.id}") }
+                            movie = it,
+                            modifier = Modifier.clickable { navController.navigate("movieDetail/${it.id}") }
                         )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                // Movie Categories
+                if (uiState.favoriteMovies.isNotEmpty()) {
+                    item {
+                        Text(
+                            text = "Favoritos",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                        )
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            items(uiState.favoriteMovies) { movie ->
+                                MovieCard(
+                                    movie = movie,
+                                    modifier = Modifier.clickable { navController.navigate("movieDetail/${movie.id}") }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                if (uiState.myListMovies.isNotEmpty()) {
+                    item {
+                        Text(
+                            text = "Minha Lista",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                        )
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            items(uiState.myListMovies) { movie ->
+                                MovieCard(
+                                    movie = movie,
+                                    modifier = Modifier.clickable { navController.navigate("movieDetail/${movie.id}") }
+                                )
+                            }
+                        }
+                    }
+                }
+
                 items(uiState.movieCategories) { category ->
                     Text(
                         text = category.genre.name,

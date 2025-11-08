@@ -22,6 +22,8 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val featuredMovie: MovieDto? = null,
     val movieCategories: List<MovieCategory> = emptyList(),
+    val favoriteMovies: List<MovieDto> = emptyList(),
+    val myListMovies: List<MovieDto> = emptyList(),
     val error: String? = null
 )
 
@@ -35,6 +37,34 @@ class HomeViewModel : ViewModel() {
 
     init {
         loadMovies()
+    }
+
+    fun toggleFavorite(movie: MovieDto) {
+        viewModelScope.launch {
+            val currentFavorites = _uiState.value.favoriteMovies.toMutableList()
+            val isFavorite = currentFavorites.any { it.id == movie.id }
+
+            if (isFavorite) {
+                currentFavorites.removeAll { it.id == movie.id }
+            } else {
+                currentFavorites.add(0, movie)
+            }
+            _uiState.value = _uiState.value.copy(favoriteMovies = currentFavorites)
+        }
+    }
+
+    fun toggleMyList(movie: MovieDto) {
+        viewModelScope.launch {
+            val currentMyList = _uiState.value.myListMovies.toMutableList()
+            val isInList = currentMyList.any { it.id == movie.id }
+
+            if (isInList) {
+                currentMyList.removeAll { it.id == movie.id }
+            } else {
+                currentMyList.add(0, movie)
+            }
+            _uiState.value = _uiState.value.copy(myListMovies = currentMyList)
+        }
     }
 
     fun loadMovies() {
@@ -57,7 +87,7 @@ class HomeViewModel : ViewModel() {
                 val featuredMovie = popularResponseDeferred.await().results.firstOrNull()
                 val movieCategories = movieCategoriesDeferred.awaitAll()
 
-                _uiState.value = HomeUiState(
+                _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     featuredMovie = featuredMovie,
                     movieCategories = movieCategories

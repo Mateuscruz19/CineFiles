@@ -6,12 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.br.cinefiles.ui.theme.CinefilesTheme
+import com.br.cinefiles.ui.viewmodels.HomeViewModel
 import com.br.cinefiles.ui.views.Login
 import com.br.cinefiles.ui.views.HomeScreen
 import com.br.cinefiles.ui.views.LoginScreen
@@ -27,6 +30,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CinefilesTheme(darkTheme = true) {
                 val navController = rememberNavController()
+                val homeViewModel: HomeViewModel = viewModel()
 
                 NavHost(
                     navController = navController,
@@ -54,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("home") {
-                        HomeScreen(navController = navController)
+                        HomeScreen(navController = navController, viewModel = homeViewModel)
                     }
                     composable("search") {
                         SearchScreen(navController = navController)
@@ -67,7 +71,8 @@ class MainActivity : ComponentActivity() {
 
                         MovieDetailScreen(
                             movieId = movieId,
-                            navController = navController
+                            navController = navController,
+                            homeViewModel = homeViewModel
                         )
                     }
                 }
