@@ -21,6 +21,7 @@ import com.br.cinefiles.ui.views.LoginScreen
 import com.br.cinefiles.ui.views.MovieDetailScreen
 import com.br.cinefiles.ui.views.RegisterScreen
 import com.br.cinefiles.ui.views.SearchScreen
+import com.br.cinefiles.ui.views.OnBoarding.OnBoardingScreen
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -34,8 +35,18 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "welcome"
+                    startDestination = "onboarding"
                 ) {
+                    composable("onboarding") {
+                        OnBoardingScreen(
+                            onFinish = {
+                                navController.navigate("welcome") {
+                                    popUpTo("onboarding") { inclusive = true }
+                                }
+                            }
+                        )
+                    }
+
                     composable("welcome") {
                         Login(
                             onCadastroClick = { navController.navigate("register") },
