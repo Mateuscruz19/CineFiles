@@ -36,7 +36,7 @@ fun CustomNavigationBar(navController: NavController) {
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Person, contentDescription = "Perfil") },
             selected = false,
-            onClick = { /* TODO: Navegar para Perfil */ }
+            onClick = { navController.navigate("profile") }
         )
     }
 }
