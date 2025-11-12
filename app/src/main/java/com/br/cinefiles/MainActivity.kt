@@ -21,6 +21,7 @@ import com.br.cinefiles.ui.views.LoginScreen
 import com.br.cinefiles.ui.views.MovieDetailScreen
 import com.br.cinefiles.ui.views.RegisterScreen
 import com.br.cinefiles.ui.views.SearchScreen
+import com.br.cinefiles.ui.views.UserScreen
 import com.br.cinefiles.ui.views.OnBoarding.OnBoardingScreen
 
 class MainActivity : ComponentActivity() {
@@ -74,6 +75,11 @@ class MainActivity : ComponentActivity() {
                     composable("search") {
                         SearchScreen(navController = navController)
                     }
+
+                    composable("profile") {
+                        UserScreen(navController = navController)
+                    }
+
                     composable(
                         route = "movieDetail/{movieId}",
                         arguments = listOf(navArgument("movieId") { type = NavType.StringType })

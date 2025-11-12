@@ -18,69 +18,87 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.br.cinefiles.R
 import com.br.cinefiles.ui.theme.Branco
 import com.br.cinefiles.ui.theme.Preto
 import com.br.cinefiles.ui.theme.Textos
+import com.br.cinefiles.ui.components.CustomNavigationBar
+import androidx.compose.material3.Scaffold
 
 @Composable
-fun UserScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Preto)
-            .padding(vertical = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Ícone do usuário
-        Icon(
-            imageVector = Icons.Outlined.Person,
-            contentDescription = "Perfil",
-            tint = Branco,
-            modifier = Modifier.size(70.dp)
-        )
+fun UserScreen(navController: NavController) {
 
-        Spacer(modifier = Modifier.height(8.dp))
 
-        // Nome do usuário
-        Text(
-            text = "Usuário",
-            style = MaterialTheme.typography.titleMedium,
-            color = Branco,
-            fontSize = 20.sp
-        )
+    Scaffold(
+        bottomBar = {
 
-        Spacer(modifier = Modifier.height(24.dp))
+            CustomNavigationBar(navController = navController)
+        }
+    ) { paddingValues ->
 
-        // Seção Favoritos
-        Text(
-            text = "Favoritos",
-            style = MaterialTheme.typography.titleMedium,
-            color = Branco,
+
+        Column(
+
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp)
-        )
+                .fillMaxSize()
+                .background(Preto)
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Icon(
+                imageVector = Icons.Outlined.Person,
+                contentDescription = "Perfil",
+                tint = Branco,
+                modifier = Modifier
+                    .size(70.dp)
+                    .padding(top = 16.dp)
+            )
 
-        FilmesRow()
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
 
-        // Seção Assistidos
-        Text(
-            text = "Assistidos",
-            style = MaterialTheme.typography.titleMedium,
-            color = Branco,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp)
-        )
+            Text(
+                text = "Usuário",
+                style = MaterialTheme.typography.titleMedium,
+                color = Branco,
+                fontSize = 20.sp
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        FilmesRow()
+
+            Text(
+                text = "Favoritos",
+                style = MaterialTheme.typography.titleMedium,
+                color = Branco,
+                modifier = Modifier
+                    .fillMaxWidth()
+
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            FilmesRow()
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+
+            Text(
+                text = "Assistidos",
+                style = MaterialTheme.typography.titleMedium,
+                color = Branco,
+                modifier = Modifier
+                    .fillMaxWidth()
+
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            FilmesRow()
+        }
     }
 }
 
@@ -143,8 +161,8 @@ fun FilmesRow() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun UserScreenPreview() {
-    UserScreen()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun UserScreenPreview() {
+//    UserScreen()
+//}
